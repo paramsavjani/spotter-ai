@@ -1,0 +1,5 @@
+Django==5.2.*
+requests==2.32.*
+django-cors-headers==4.*
+whitenoise==6.*
+gunicorn==23.*
