@@ -2,8 +2,12 @@
 
 React + Django app that picks the safest truck route using the weather at the time the truck reaches each part of the road.
 
+- Live: https://spotter-ai.paramsavjani.in
+- Walkthrough: https://www.loom.com/share/c4cc5be9138c4748b995672382d033e6
 - Stack: Django 5, React 18 (Vite), Leaflet
 - APIs (free, no keys): OSRM (routes), Open-Meteo (weather), Photon (place search)
+
+![Routes, risk bars and heatmap](docs/routes.jpg)
 
 ## How it works
 
@@ -60,6 +64,7 @@ frontend/src/
   api.js         API calls
   components/    TripForm, PlaceInput, Results, RouteMap, ForecastSlider, RouteShield
 build.sh         builds the frontend into the backend
+Dockerfile       one image: React build + Django
 ```
 
 No database. Everything is computed per request.
@@ -121,6 +126,13 @@ cd backend && python manage.py test routing
 
 - `build.sh` builds React into `backend/frontend_build`; Django + WhiteNoise serves it.
 - `render.yaml` works as a Render blueprint.
+- Live demo runs in Docker behind Caddy:
+
+```bash
+docker build -t spotter-ai .
+docker run -d --name spotter-ai -p 127.0.0.1:8010:8000 \
+  -e DJANGO_SECRET_KEY=... -e DJANGO_ALLOWED_HOSTS=your.domain -v spotter-ai-cache:/data/cache spotter-ai
+```
 
 Env vars: `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=0`, `DJANGO_ALLOWED_HOSTS`. Optional: `OSRM_URL`, `CACHE_DIR`, `CORS_ALLOWED_ORIGINS` / `VITE_API_URL` (only if frontend is hosted separately).
 
