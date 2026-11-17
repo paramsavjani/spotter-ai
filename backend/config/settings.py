@@ -53,6 +53,8 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 WHITENOISE_ROOT = FRONTEND_DIR
 
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
 CORS_ALLOWED_ORIGINS = [
     o for o in os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:5173").split(",") if o
 ]
